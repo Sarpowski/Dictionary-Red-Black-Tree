@@ -72,28 +72,28 @@ void RedBlackTree::insert(const std::string& treeKey, const std::string& meaning
 	}
 	if (parent->treeKey_.first < treeKey)
 	{
-		parent->right_ = new NodeTree(std::make_pair(treeKey, new List(meaning)), NodeTree::Colar_Black_Red::RED, parent);
+		parent->right_ = new NodeTree(std::make_pair(treeKey, new List(meaning)), NodeTree::Color_Black_Red::RED, parent);
 		fixInsert(parent->right_);
 	}
 	else
 	{
-		parent->left_ = new NodeTree(std::make_pair(treeKey, new List(meaning)), NodeTree::Colar_Black_Red::RED, parent);
+		parent->left_ = new NodeTree(std::make_pair(treeKey, new List(meaning)), NodeTree::Color_Black_Red::RED, parent);
 		fixInsert(parent->left_);
 	}
 }
 
 void RedBlackTree::fixInsert(NodeTree* node)
 {
-	while (node != root_ && node->p_->color_ == NodeTree::Colar_Black_Red::RED)
+	while (node != root_ && node->p_->color_ == NodeTree::Color_Black_Red::RED)
 	{
 		if (node->p_ == node->p_->p_->left_)
 		{
 			NodeTree* uncle = node->p_->p_->right_;
-			if (uncle && uncle->color_ == NodeTree::Colar_Black_Red::RED)
+			if (uncle && uncle->color_ == NodeTree::Color_Black_Red::RED)
 			{
-				node->p_->color_ = NodeTree::Colar_Black_Red::BLACK;
-				uncle->color_ = NodeTree::Colar_Black_Red::BLACK;
-				node->p_->p_->color_ = NodeTree::Colar_Black_Red::RED;
+				node->p_->color_ = NodeTree::Color_Black_Red::BLACK;
+				uncle->color_ = NodeTree::Color_Black_Red::BLACK;
+				node->p_->p_->color_ = NodeTree::Color_Black_Red::RED;
 				node = node->p_->p_;
 			}
 			else
@@ -103,19 +103,19 @@ void RedBlackTree::fixInsert(NodeTree* node)
 					node = node->p_;
 					leftRotation(node);
 				}
-				node->p_->color_ = NodeTree::Colar_Black_Red::BLACK;
-				node->p_->p_->color_ = NodeTree::Colar_Black_Red::RED;
+				node->p_->color_ = NodeTree::Color_Black_Red::BLACK;
+				node->p_->p_->color_ = NodeTree::Color_Black_Red::RED;
 				rightRotation(node->p_->p_);
 			}
 		}
 		else
 		{
 			NodeTree* uncle = node->p_->p_->left_;
-			if (uncle && uncle->color_ == NodeTree::Colar_Black_Red::RED)
+			if (uncle && uncle->color_ == NodeTree::Color_Black_Red::RED)
 			{
-				node->p_->color_ = NodeTree::Colar_Black_Red::BLACK;
-				uncle->color_ = NodeTree::Colar_Black_Red::BLACK;
-				node->p_->p_->color_ = NodeTree::Colar_Black_Red::RED;
+				node->p_->color_ = NodeTree::Color_Black_Red::BLACK;
+				uncle->color_ = NodeTree::Color_Black_Red::BLACK;
+				node->p_->p_->color_ = NodeTree::Color_Black_Red::RED;
 				node = node->p_->p_;
 			}
 			else
@@ -125,13 +125,13 @@ void RedBlackTree::fixInsert(NodeTree* node)
 					node = node->p_;
 					rightRotation(node);
 				}
-				node->p_->color_ = NodeTree::Colar_Black_Red::BLACK;
-				node->p_->p_->color_ = NodeTree::Colar_Black_Red::RED;
+				node->p_->color_ = NodeTree::Color_Black_Red::BLACK;
+				node->p_->p_->color_ = NodeTree::Color_Black_Red::RED;
 				leftRotation(node->p_->p_);
 			}
 		}
 	}
-	root_->color_ = NodeTree::Colar_Black_Red::BLACK;
+	root_->color_ = NodeTree::Color_Black_Red::BLACK;
 }
 /// <Rec Search>
 ///added 
@@ -171,8 +171,8 @@ void RedBlackTree::deleteWord(const std::string& treeKey)
 void RedBlackTree::deleteNode(NodeTree* node)
 {
 	NodeTree* replaceNode = findReplacement(node);
-	bool bothBlack = ((replaceNode == nullptr || replaceNode->color_ == NodeTree::Colar_Black_Red::BLACK)
-		&& (node->color_ == NodeTree::Colar_Black_Red::BLACK));
+	bool bothBlack = ((replaceNode == nullptr || replaceNode->color_ == NodeTree::Color_Black_Red::BLACK)
+		&& (node->color_ == NodeTree::Color_Black_Red::BLACK));
 	NodeTree* parent = node->p_;
 	if (replaceNode == nullptr)
 	{
@@ -190,7 +190,7 @@ void RedBlackTree::deleteNode(NodeTree* node)
 			{
 				if (findSibling(node))
 				{
-					findSibling(node)->color_ = NodeTree::Colar_Black_Red::RED;
+					findSibling(node)->color_ = NodeTree::Color_Black_Red::RED;
 				}
 			}
 			if (node == node->p_->left_)
@@ -231,7 +231,7 @@ void RedBlackTree::deleteNode(NodeTree* node)
 			}
 			else
 			{
-				replaceNode->color_ = NodeTree::Colar_Black_Red::BLACK;
+				replaceNode->color_ = NodeTree::Color_Black_Red::BLACK;
 			}
 		}
 		return;
@@ -254,10 +254,10 @@ void RedBlackTree::DeleteFixer(NodeTree* node)
 	}
 	else
 	{
-		if (sibling->color_ == NodeTree::Colar_Black_Red::RED)
+		if (sibling->color_ == NodeTree::Color_Black_Red::RED)
 		{
-			parent->color_ = NodeTree::Colar_Black_Red::RED;
-			sibling->color_ = NodeTree::Colar_Black_Red::BLACK;
+			parent->color_ = NodeTree::Color_Black_Red::RED;
+			sibling->color_ = NodeTree::Color_Black_Red::BLACK;
 			if (sibling == sibling->p_->left_)
 			{
 				rightRotation(parent);
@@ -270,12 +270,12 @@ void RedBlackTree::DeleteFixer(NodeTree* node)
 		}
 		else
 		{
-			if ((sibling->left_ != nullptr && sibling->left_->color_ == NodeTree::Colar_Black_Red::RED) ||
-				(sibling->right_ != nullptr && sibling->right_->color_ == NodeTree::Colar_Black_Red::RED))
+			if ((sibling->left_ != nullptr && sibling->left_->color_ == NodeTree::Color_Black_Red::RED) ||
+				(sibling->right_ != nullptr && sibling->right_->color_ == NodeTree::Color_Black_Red::RED))
 			{
 				if (sibling == sibling->p_->left_)
 				{
-					if (sibling->left_ != nullptr && sibling->left_->color_ == NodeTree::Colar_Black_Red::RED)
+					if (sibling->left_ != nullptr && sibling->left_->color_ == NodeTree::Color_Black_Red::RED)
 					{
 						sibling->left_->color_ = sibling->color_;
 						sibling->color_ = parent->color_;
@@ -290,7 +290,7 @@ void RedBlackTree::DeleteFixer(NodeTree* node)
 				}
 				else
 				{
-					if (sibling->right_ != nullptr && sibling->right_->color_ == NodeTree::Colar_Black_Red::RED)
+					if (sibling->right_ != nullptr && sibling->right_->color_ == NodeTree::Color_Black_Red::RED)
 					{
 						sibling->right_->color_ = sibling->color_;
 						sibling->color_ = parent->color_;
@@ -303,18 +303,18 @@ void RedBlackTree::DeleteFixer(NodeTree* node)
 						leftRotation(parent);
 					}
 				}
-				parent->color_ = NodeTree::Colar_Black_Red::BLACK;
+				parent->color_ = NodeTree::Color_Black_Red::BLACK;
 			}
 			else
 			{
-				sibling->color_ = NodeTree::Colar_Black_Red::RED;
-				if (parent->color_ == NodeTree::Colar_Black_Red::BLACK)
+				sibling->color_ = NodeTree::Color_Black_Red::RED;
+				if (parent->color_ == NodeTree::Color_Black_Red::BLACK)
 				{
 					DeleteFixer(parent);
 				}
 				else
 				{
-					parent->color_ = NodeTree::Colar_Black_Red::BLACK;
+					parent->color_ = NodeTree::Color_Black_Red::BLACK;
 				}
 			}
 		}
@@ -336,7 +336,7 @@ bool RedBlackTree::isRedBlackTree() {
 bool RedBlackTree::isRootBlack()
 {
 	
-		return (root_->color_ == NodeTree::Colar_Black_Red::BLACK);
+		return (root_->color_ == NodeTree::Color_Black_Red::BLACK);
 	
 }
 
@@ -517,7 +517,7 @@ std::string RedBlackTree::translate(const std::string& sentence)
 	
 }
 
-RedBlackTree::NodeTree::NodeTree(std::pair<std::string, List*> treeKey, Colar_Black_Red color, NodeTree* p, NodeTree* left, NodeTree* right):
+RedBlackTree::NodeTree::NodeTree(std::pair<std::string, List*> treeKey, Color_Black_Red color, NodeTree* p, NodeTree* left, NodeTree* right):
 	left_(left),
 	color_(color),
 	p_(p),
@@ -607,13 +607,13 @@ bool RedBlackTree::isRedBlackTreeHelper(NodeTree* node)
 		return true;
 	}
 
-	if (node->color_ == NodeTree::Colar_Black_Red::RED)
+	if (node->color_ == NodeTree::Color_Black_Red::RED)
 	{
-		if (node->left_ != nullptr && node->left_->color_ == NodeTree::Colar_Black_Red::RED) 
+		if (node->left_ != nullptr && node->left_->color_ == NodeTree::Color_Black_Red::RED) 
 		{
 			return false;
 		}
-		if (node->right_ != nullptr && node->right_->color_ == NodeTree::Colar_Black_Red::RED) 
+		if (node->right_ != nullptr && node->right_->color_ == NodeTree::Color_Black_Red::RED) 
 		{
 			return false;
 		}
@@ -630,10 +630,10 @@ bool RedBlackTree::isRedNodesHaveBlackChildrenHelper(NodeTree* node)
 		return true;
 	}
 
-	if (node->color_ == NodeTree::Colar_Black_Red::RED)
+	if (node->color_ == NodeTree::Color_Black_Red::RED)
 	{
-		if ((node->left_ != nullptr && node->left_->color_ == NodeTree::Colar_Black_Red::RED) ||
-			(node->right_ != nullptr && node->right_->color_ == NodeTree::Colar_Black_Red::RED)) {
+		if ((node->left_ != nullptr && node->left_->color_ == NodeTree::Color_Black_Red::RED) ||
+			(node->right_ != nullptr && node->right_->color_ == NodeTree::Color_Black_Red::RED)) {
 			return false;
 		}
 	}
@@ -654,4 +654,29 @@ int RedBlackTree::getHeight(NodeTree* node)
 
 	// +  1 for the current node
 	return std::max(leftHeight, rightHeight) + 1;
+}
+
+bool RedBlackTree::isSameBlackNodeCountHelper(NodeTree* node, int currentBlackCount, int& blackNodeCount)
+{
+	
+		if (node == nullptr) {
+			if (blackNodeCount == -1) {
+				blackNodeCount = currentBlackCount;  // Set blackNodeCount for the first time
+			}
+			else {
+				if (currentBlackCount != blackNodeCount) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		if (node->color_ == NodeTree::Color_Black_Red::BLACK) {
+			currentBlackCount++;
+		}
+
+		return isSameBlackNodeCountHelper(node->left_, currentBlackCount, blackNodeCount) &&
+			isSameBlackNodeCountHelper(node->right_, currentBlackCount, blackNodeCount);
+	
+		
 }

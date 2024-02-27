@@ -51,7 +51,7 @@ private:
 
 	struct NodeTree
 	{
-		enum class Colar_Black_Red
+		enum class Color_Black_Red
 		{
 			BLACK,
 			RED
@@ -60,10 +60,10 @@ private:
 		NodeTree* right_;
 		NodeTree* p_;
 		std::pair<std::string, List*> treeKey_;
-		Colar_Black_Red color_;
+		Color_Black_Red color_;
 
 		NodeTree(std::pair<std::string, List*> treeKey = std::make_pair(std::string(), nullptr),
-				 Colar_Black_Red color = Colar_Black_Red::BLACK,
+			Color_Black_Red color = Color_Black_Red::BLACK,
 				 NodeTree* p = nullptr, 
 			     NodeTree* left = nullptr, 
 			     NodeTree* right = nullptr);
@@ -94,27 +94,8 @@ private:
 	bool isRedNodesHaveBlackChildrenHelper(NodeTree* node);
 	int getHeight(NodeTree* node); 
 	
-	bool isSameBlackNodeCountHelper(NodeTree* node, int currentBlackCount, int& blackNodeCount)
-	{
-		if (node == nullptr) {
-			if (blackNodeCount == -1) {
-				blackNodeCount = currentBlackCount;  // Set blackNodeCount for the first time
-			}
-			else {
-				if (currentBlackCount != blackNodeCount) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		if (node->color_ == NodeTree::Colar_Black_Red::BLACK) {
-			currentBlackCount++;
-		}
-
-		return isSameBlackNodeCountHelper(node->left_, currentBlackCount, blackNodeCount) &&
-			isSameBlackNodeCountHelper(node->right_, currentBlackCount, blackNodeCount);
-	}
+	bool isSameBlackNodeCountHelper(NodeTree* node, int currentBlackCount, int& blackNodeCount);
+	
 };
 
 
